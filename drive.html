@@ -75,26 +75,22 @@
     <footer>© 2025 Assistenza AI — Tutti i diritti riservati.</footer>
 
     <script>
-      // Sostituisci con il tuo vero CLIENT_ID (deve appartenere al progetto GCP corretto!)
-      const CLIENT_ID = "771682904706-0r4ue5qla76u46hjujnkf3s5i0v5nfma.apps.googleusercontent.com";
-
-      // Inizializza login OAuth 2.0
+    window.onload = () => {
       const tokenClient = google.accounts.oauth2.initTokenClient({
-        client_id: CLIENT_ID,
+        client_id: "771682904706-0r4ue5qla76u46hjujnkf3s5i0v5nfma.apps.googleusercontent.com",
         scope: 'https://www.googleapis.com/auth/cloud-platform',
         callback: (tokenResponse) => {
           const accessToken = tokenResponse.access_token;
-          console.log("Access Token:", accessToken);
+          console.log("✅ Token ottenuto:", accessToken);
 
           const searchWidget = document.querySelector('gen-search-widget');
           searchWidget.authToken = accessToken;
         },
       });
 
-      // Richiedi token al caricamento della pagina
-      window.onload = () => {
-        tokenClient.requestAccessToken();
-      };
+      // Richiede accesso al caricamento
+      tokenClient.requestAccessToken();
+    };
     </script>
   </body>
 </html>
