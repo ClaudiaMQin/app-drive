@@ -84,7 +84,9 @@
 <header>
   <img src="image (7).png" alt="Logo Azienda" />
   <h1>Assistenza AI</h1>
-  <p>Trova rapidamente soluzioni ai ticket di supporto usando il nostro motore di ricerca potenziato da Vertex AI.</p>
+  <p>
+    Trova rapidamente soluzioni ai ticket di supporto usando il nostro motore di ricerca potenziato da Vertex AI.
+  </p>
 </header>
 
 <main>
@@ -110,28 +112,37 @@
   © 2025 Assistenza AI — Tutti i diritti riservati.
 </footer>
 
-<!-- Google OAuth -->
+<!-- 1. Libreria Vertex AI Search -->
+<script src="https://cloud.google.com/ai/gen-app-builder/client?hl=it"></script>
+
+<!-- 2. Libreria Google Identity Services -->
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <script>
-  window.onload = function () {
+  // 3. Il tuo CLIENT ID da Google Cloud
+  const CLIENT_ID = "771682904706-0r4ue5qla76u46hjujnkf3s5i0v5nfma.apps.googleusercontent.com";
+
+  // 4. Inizializza il login
+  function initAuth() {
     google.accounts.id.initialize({
-      client_id: "771682904706-0r4ue5qla76u46hjujnkf3s5i0v5nfma.apps.googleusercontent.com",  // 👈 sostituisci con il tuo client ID OAuth 2.0
+      client_id: CLIENT_ID,
       callback: handleCredentialResponse
     });
 
-    google.accounts.id.prompt(); // mostra popup di login
-  };
-
-  function handleCredentialResponse(response) {
-    const id_token = response.credential;
-    const searchWidget = document.querySelector('gen-search-widget');
-    searchWidget.authToken = id_token;
+    google.accounts.id.prompt(); // mostra popup login
   }
-</script>
 
-<!-- Vertex AI Search Widget -->
-<script src="https://cloud.google.com/ai/gen-app-builder/client?hl=it"></script>
+  // 5. Quando l'utente fa login, prendi il token
+  function handleCredentialResponse(response) {
+    const token = response.credential;
+    const searchWidget = document.querySelector('gen-search-widget');
+    searchWidget.authToken = token;
+  }
+
+  // 6. Avvia il login al caricamento
+  window.onload = initAuth;
+</script>
 
 </body>
 </html>
+
